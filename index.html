@@ -259,7 +259,7 @@
                 formOverlay.classList.add('show');
                 
                 const timestamp = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
-                const urlWithTimestamp = `${scriptURL}?t=${timestamp}`;
+                console.log(timestamp);
                 
                 const response = await fetch(urlWithTimestamp, {
                     method: 'POST',
