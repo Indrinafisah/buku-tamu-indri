@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -258,7 +258,7 @@
                 btnText.textContent = 'Mengirim...';
                 formOverlay.classList.add('show');
                 
-                const timestamp = new Date().getTime();
+                const timestamp = new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" });
                 const urlWithTimestamp = `${scriptURL}?t=${timestamp}`;
                 
                 const response = await fetch(urlWithTimestamp, {
