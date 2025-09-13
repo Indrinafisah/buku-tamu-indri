@@ -35,7 +35,6 @@
         .login-logo {
             width: 100px;
             height: 100px;
-            /* Menggunakan img tag untuk kemudahan */
             margin: 0 auto 20px;
             display: block;
         }
@@ -74,6 +73,71 @@
         .login-group input:focus {
             outline: none;
             border-color: #d32f2f;
+        }
+
+        /* CAPTCHA Styles */
+        .captcha-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+        }
+
+        .captcha-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .captcha-code {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 8px;
+            color: #d32f2f;
+            border: 2px solid #ddd;
+            text-decoration: line-through;
+            text-decoration-color: #999;
+            text-decoration-thickness: 1px;
+            user-select: none;
+        }
+
+        .captcha-refresh {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+
+        .captcha-refresh:hover {
+            background: #5a6268;
+        }
+
+        .captcha-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            text-align: center;
+            letter-spacing: 4px;
+            font-family: 'Courier New', monospace;
+            box-sizing: border-box;
+        }
+
+        .captcha-label {
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #666;
         }
 
         .login-btn {
@@ -127,7 +191,6 @@
         .logo-kpu {
             width: 80px;
             height: 80px;
-            /* Menggunakan img tag untuk kemudahan */
         }
 
         header h2 { 
@@ -360,6 +423,16 @@
                 gap: 10px;
                 text-align: center;
             }
+
+            .captcha-display {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .captcha-code {
+                font-size: 20px;
+                letter-spacing: 4px;
+            }
         }
     </style>
 </head>
@@ -379,6 +452,19 @@
                     <label for="password">🔒 Password:</label>
                     <input type="password" id="password" required placeholder="Masukkan password">
                 </div>
+                
+                <!-- CAPTCHA Section -->
+                <div class="captcha-container">
+                    <div class="captcha-display">
+                        <div class="captcha-code" id="captchaDisplay">ABCD</div>
+                        <button type="button" class="captcha-refresh" onclick="generateCaptcha()" title="Refresh CAPTCHA">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                    <label class="captcha-label" for="captchaInput">🔐 Masukkan kode CAPTCHA di atas:</label>
+                    <input type="text" class="captcha-input" id="captchaInput" required placeholder="Masukkan kode CAPTCHA" maxlength="5">
+                </div>
+                
                 <button type="submit" class="login-btn">Masuk Admin</button>
             </form>
             
@@ -391,7 +477,7 @@
             <div class="header-content">
                 <img class="logo-kpu" src="img/logo/logo-kpu.png" alt="Logo KPU">
                 <div>
-                    <h2> Admin Buku Tamu KPU</h2>
+                    <h2>Admin Buku Tamu KPU</h2>
                     <p style="margin: 0; color: #666;">Panel Administrasi Data Tamu</p>
                 </div>
             </div>
@@ -471,6 +557,7 @@
         // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA YANG BARU
         const scriptURL = "https://script.google.com/macros/s/AKfycbxxzB7CdHkrP8swb7WYN0xt3gYp9DG7efiRmNAv-YZXmlivk5jpzYWHl5NvI4HfCjs6/exec";
         let currentEditRow = null;
+        let captchaCode = "";
 
         // Kredensial login (dalam aplikasi nyata, ini harus di server)
         const adminCredentials = {
@@ -478,8 +565,27 @@
             password: "kpu2025"
         };
 
+        // CAPTCHA Functions
+        function generateCaptcha() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            captchaCode = '';
+            for (let i = 0; i < 5; i++) {
+                captchaCode += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            document.getElementById('captchaDisplay').textContent = captchaCode;
+            console.log('CAPTCHA generated:', captchaCode); // Debug
+        }
+
+        function validateCaptcha() {
+            const userInput = document.getElementById('captchaInput').value.toUpperCase();
+            console.log('User input:', userInput, 'Expected:', captchaCode); // Debug
+            return userInput === captchaCode;
+        }
+
         // Cek status login saat halaman dimuat
         window.onload = function() {
+            console.log('Page loaded');
+            generateCaptcha(); // Generate CAPTCHA saat halaman dimuat
             checkLoginStatus();
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000); // Update waktu setiap detik
@@ -488,6 +594,7 @@
         function checkLoginStatus() {
             // Cek apakah sudah login (dalam aplikasi nyata, gunakan session/token)
             const isLoggedIn = sessionStorage.getItem('kpu_admin_logged_in') === 'true';
+            console.log('Login status:', isLoggedIn);
             
             if (isLoggedIn) {
                 showAdminPanel();
@@ -498,21 +605,46 @@
 
         function handleLogin(event) {
             event.preventDefault();
+            console.log('Login attempt');
             
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
             const errorDiv = document.getElementById('loginError');
             
+            console.log('Username:', username);
+            console.log('Password length:', password.length);
+            
+            // Validasi CAPTCHA terlebih dahulu
+            if (!validateCaptcha()) {
+                console.log('CAPTCHA validation failed');
+                errorDiv.textContent = '❌ Kode CAPTCHA salah!';
+                errorDiv.style.display = 'block';
+                generateCaptcha(); // Generate CAPTCHA baru
+                document.getElementById('captchaInput').value = '';
+                
+                // Hapus pesan error setelah 3 detik
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 3000);
+                return;
+            }
+            
+            console.log('CAPTCHA validation passed');
+            
             if (username === adminCredentials.username && password === adminCredentials.password) {
                 // Login berhasil
+                console.log('Login successful');
                 sessionStorage.setItem('kpu_admin_logged_in', 'true');
                 sessionStorage.setItem('kpu_admin_user', username);
                 showAdminPanel();
                 loadData(); // Load data setelah login
             } else {
                 // Login gagal
+                console.log('Login failed - credentials mismatch');
                 errorDiv.textContent = '❌ Username atau password salah!';
                 errorDiv.style.display = 'block';
+                generateCaptcha(); // Generate CAPTCHA baru
+                document.getElementById('captchaInput').value = '';
                 
                 // Hapus pesan error setelah 3 detik
                 setTimeout(() => {
@@ -530,34 +662,75 @@
         }
 
         function showLoginPanel() {
+            console.log('Showing login panel');
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('adminSection').style.display = 'none';
             
             // Reset form
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+            document.getElementById('captchaInput').value = '';
             document.getElementById('loginError').style.display = 'none';
+            generateCaptcha(); // Generate CAPTCHA baru
         }
 
         function showAdminPanel() {
+            console.log('Showing admin panel');
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'block';
         }
 
         function updateCurrentTime() {
             const now = new Date();
-            const timeString = now.toLocaleString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            
+            // Format waktu yang lebih user-friendly
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const dayName = days[now.getDay()];
+            const day = now.getDate().toString().padStart(2, '0');
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            const timeString = `${dayName}, ${day} ${month} ${year} - ${hours}:${minutes}:${seconds} WIB`;
             
             const timeElement = document.getElementById('currentTime');
             if (timeElement) {
                 timeElement.textContent = timeString;
+            }
+        }
+
+        // Function untuk format tanggal dalam tabel
+        function formatDateTime(dateString) {
+            if (!dateString) return '';
+            
+            try {
+                const date = new Date(dateString);
+                
+                // Cek apakah tanggal valid
+                if (isNaN(date.getTime())) {
+                    return dateString; // Return original string jika tidak bisa di-parse
+                }
+                
+                const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 
+                               'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+                
+                const dayName = days[date.getDay()];
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                
+                return `${dayName}, ${day} ${month} ${year} ${hours}:${minutes}`;
+            } catch (error) {
+                console.log('Error formatting date:', error);
+                return dateString; // Return original string jika ada error
             }
         }
 
@@ -616,9 +789,20 @@
                     data.forEach((row, i) => {
                         let tr = document.createElement("tr");
 
-                        row.forEach(cell => {
+                        row.forEach((cell, cellIndex) => {
                             let td = document.createElement(i === 0 ? "th" : "td");
-                            td.innerText = cell || "";
+                            
+                            // Format tanggal jika ada kolom yang berisi tanggal/waktu
+                            if (i > 0 && (
+                                (typeof cell === 'string' && cell.includes('T') && cell.includes('Z')) ||
+                                (typeof cell === 'string' && cell.match(/^\d{4}-\d{2}-\d{2}/)) ||
+                                (cellIndex === 6 || cellIndex === 7) // Asumsikan kolom waktu di index 6 atau 7
+                            )) {
+                                td.innerText = formatDateTime(cell);
+                            } else {
+                                td.innerText = cell || "";
+                            }
+                            
                             tr.appendChild(td);
                         });
 
@@ -644,197 +828,3 @@
                             deleteBtn.onclick = () => confirmDelete(actualRowNumber, row[0] || "Unknown", rowIndex);
                             
                             td.appendChild(editBtn);
-                            td.appendChild(deleteBtn);
-                            tr.appendChild(td);
-                        }
-
-                        dataTable.appendChild(tr);
-                    });
-                }
-
-                // ===== Tabel Rekap =====
-                let rekapTable = document.getElementById("rekapTable");
-                rekapTable.innerHTML = "";
-                
-                if (rekap.length === 0) {
-                    rekapTable.innerHTML = "<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #666;'>📊 Belum ada data rekap</td></tr>";
-                } else {
-                    rekap.forEach((row, i) => {
-                        let tr = document.createElement("tr");
-                        row.forEach(cell => {
-                            let td = document.createElement(i === 0 ? "th" : "td");
-                            td.innerText = cell || "";
-                            tr.appendChild(td);
-                        });
-                        rekapTable.appendChild(tr);
-                    });
-                }
-
-                showStatus("✅ Data berhasil dimuat! (" + Math.max(0, data.length - 1) + " tamu)");
-
-            } catch (err) {
-                console.error("❌ Error loading data:", err);
-                showStatus("❌ Gagal memuat data! " + err.message, true);
-                
-                const dataTable = document.getElementById("dataTable");
-                dataTable.innerHTML = `<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #d32f2f;'>
-                    ❌ Error: ${err.message}<br>
-                    <small>Cek Console (F12) untuk detail error</small>
-                </td></tr>`;
-            }
-        }
-
-        function openEditModal(rowIndex, rowData) {
-            currentEditRow = rowIndex + 2; // +2 karena row 1 adalah header, data mulai dari row 2
-            
-            // Isi form dengan data saat ini
-            document.getElementById("editNama").value = rowData[0] || "";
-            document.getElementById("editAlamat").value = rowData[1] || "";
-            document.getElementById("editInstansi").value = rowData[2] || "";
-            document.getElementById("editTelepon").value = rowData[3] || "";
-            document.getElementById("editKeperluan").value = rowData[4] || "";
-            document.getElementById("editBidang").value = rowData[5] || "";
-            
-            document.getElementById("editModal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("editModal").style.display = "none";
-            currentEditRow = null;
-        }
-
-        // Tutup modal jika klik di luar
-        window.onclick = function(event) {
-            const modal = document.getElementById("editModal");
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // Handle form submit
-        document.getElementById("editForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            await updateData();
-        });
-
-        async function updateData() {
-            if (!currentEditRow) return;
-            
-            try {
-                const formData = {
-                    nama: document.getElementById("editNama").value.trim(),
-                    alamat: document.getElementById("editAlamat").value.trim(),
-                    instansi: document.getElementById("editInstansi").value.trim(),
-                    telepon: document.getElementById("editTelepon").value.trim(),
-                    keperluan: document.getElementById("editKeperluan").value.trim(),
-                    bidang: document.getElementById("editBidang").value
-                };
-                
-                // Validasi form
-                if (!formData.nama || !formData.alamat || !formData.instansi || 
-                    !formData.telepon || !formData.keperluan || !formData.bidang) {
-                    alert("❌ Semua field harus diisi!");
-                    return;
-                }
-                
-                console.log("✏️ Mengupdate row:", currentEditRow);
-                console.log("📝 Data yang akan diupdate:", formData);
-                
-                const timestamp = new Date().getTime();
-                const url = `${scriptURL}?action=edit&row=${currentEditRow}&t=${timestamp}` +
-                    `&nama=${encodeURIComponent(formData.nama)}` +
-                    `&alamat=${encodeURIComponent(formData.alamat)}` +
-                    `&instansi=${encodeURIComponent(formData.instansi)}` +
-                    `&telepon=${encodeURIComponent(formData.telepon)}` +
-                    `&keperluan=${encodeURIComponent(formData.keperluan)}` +
-                    `&bidang=${encodeURIComponent(formData.bidang)}`;
-                
-                console.log("🌐 URL request:", url);
-                
-                let res = await fetch(url);
-                console.log("📡 Update response status:", res.status);
-                
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-                }
-                
-                let text = await res.text();
-                console.log("✅ Update response:", text);
-                
-                closeModal();
-                showStatus("✅ Data berhasil diperbarui!");
-                
-                // Refresh data setelah update
-                setTimeout(() => loadData(), 500);
-                
-            } catch (err) {
-                console.error("❌ Error updating data:", err);
-                showStatus("❌ Gagal memperbarui data! " + err.message, true);
-            }
-        }
-
-        function confirmDelete(rowNumber, namaTamu, displayIndex) {
-            const confirmMsg = `🗑️ Yakin ingin menghapus data tamu "${namaTamu}"?\n\n⚠️ Tindakan ini tidak dapat dibatalkan!`;
-            
-            console.log("🗑 Confirm delete - Row Number:", rowNumber, "Nama:", namaTamu, "Display Index:", displayIndex);
-            
-            if (confirm(confirmMsg)) {
-                deleteData(rowNumber, displayIndex);
-            }
-        }
-
-        async function deleteData(rowNumber, displayIndex) {
-            try {
-                console.log("🗑 Menghapus row number:", rowNumber, "Display index:", displayIndex);
-                
-                // Disable tombol hapus yang diklik
-                const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
-                if (deleteBtn) {
-                    deleteBtn.disabled = true;
-                    deleteBtn.innerHTML = "⏳ Menghapus...";
-                }
-                
-                const timestamp = new Date().getTime();
-                const url = `${scriptURL}?action=delete&row=${rowNumber}&t=${timestamp}`;
-                
-                console.log("🌐 Delete URL:", url);
-                
-                const res = await fetch(url, {
-                    method: 'GET',
-                    mode: 'cors'
-                });
-                
-                console.log("📡 Delete response status:", res.status);
-                
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-                }
-                
-                const responseText = await res.text();
-                console.log("✅ Delete response:", responseText);
-                
-                // Cek apakah response mengandung error
-                if (responseText.includes('error') || responseText.includes('Error')) {
-                    throw new Error("Server mengembalikan error: " + responseText);
-                }
-                
-                showStatus("✅ Data berhasil dihapus!");
-                
-                // Refresh data setelah delete
-                setTimeout(() => loadData(), 800);
-                
-            } catch (err) {
-                console.error("❌ Error deleting data:", err);
-                showStatus("❌ Gagal menghapus data! " + err.message, true);
-                
-                // Re-enable tombol jika error
-                const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
-                if (deleteBtn) {
-                    deleteBtn.disabled = false;
-                    deleteBtn.innerHTML = "🗑 Hapus";
-                }
-            }
-        }
-    </script>
-</body>
-</html>
