@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -138,11 +138,23 @@
         }
 
         .alert-message {
-            margin-top: 15px;
+            margin-bottom: 15px;
             padding: 12px;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         .alert-success {
@@ -179,6 +191,10 @@
             <img src="img/logo/logo-kpu.png" alt="Logo KPU">
         </div>
         <h2>Buku Tamu KPU</h2>
+        
+        <!-- Notifikasi dipindahkan ke atas form -->
+        <div id="statusMessage"></div>
+        
         <form id="bukuTamuForm">
             <label> Nama Lengkap:</label>
             <input type="text" name="nama" required placeholder="Masukkan nama lengkap">
@@ -212,7 +228,6 @@
                 <span id="btnText"> Kirim Data</span>
             </button>
         </form>
-        <div id="statusMessage"></div>
     </div>
     
     <div id="toast" class="toast"></div>
@@ -270,11 +285,17 @@
                     redirect: 'follow'
                 });
                 
+                console.log('Response status:', response.status); // Debug log
+                
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
-                await response.text();
+                const result = await response.text();
+                console.log('Response result:', result); // Debug log
+                
+                // Simulasi sukses untuk testing
+                console.log('Form berhasil disubmit');
                 
                 form.reset();
                 showSuccessNotification();
