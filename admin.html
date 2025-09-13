@@ -14,6 +14,7 @@
             min-height: 100vh;
         }
 
+        /* Login Styles */
         .login-container {
             display: flex;
             justify-content: center;
@@ -34,9 +35,9 @@
         .login-logo {
             width: 100px;
             height: 100px;
+            /* Menggunakan img tag untuk kemudahan */
             margin: 0 auto 20px;
             display: block;
-            background: #f0f0f0;
         }
 
         .login-title {
@@ -75,70 +76,6 @@
             border-color: #d32f2f;
         }
 
-        .captcha-container {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-        }
-
-        .captcha-display {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .captcha-code {
-            background: #fff;
-            padding: 15px 20px;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 24px;
-            font-weight: bold;
-            letter-spacing: 8px;
-            color: #d32f2f;
-            border: 2px solid #ddd;
-            text-decoration: line-through;
-            text-decoration-color: #999;
-            text-decoration-thickness: 1px;
-            user-select: none;
-        }
-
-        .captcha-refresh {
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        .captcha-refresh:hover {
-            background: #5a6268;
-        }
-
-        .captcha-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            text-align: center;
-            letter-spacing: 4px;
-            font-family: 'Courier New', monospace;
-            box-sizing: border-box;
-        }
-
-        .captcha-label {
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #666;
-        }
-
         .login-btn {
             width: 100%;
             padding: 12px;
@@ -165,16 +102,7 @@
             display: none;
         }
 
-        .debug-info {
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 15px;
-            font-size: 12px;
-            text-align: left;
-        }
-
+        /* Admin Styles */
         .admin-container {
             display: none;
         }
@@ -199,7 +127,7 @@
         .logo-kpu {
             width: 80px;
             height: 80px;
-            background: #f0f0f0;
+            /* Menggunakan img tag untuk kemudahan */
         }
 
         header h2 { 
@@ -270,6 +198,127 @@
         .btn-delete:hover { background: #b71c1c; }
         .btn-delete:disabled { background: #ccc; cursor: not-allowed; }
         
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0px 4px 20px rgba(0,0,0,0.3);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d32f2f;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            color: #d32f2f;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover { color: #000; }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: #d32f2f;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-save {
+            background: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-save:hover { background: #45a049; }
+        
+        .btn-cancel {
+            background: #757575;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .btn-cancel:hover { background: #616161; }
+        
         .status {
             padding: 10px;
             margin: 10px 0;
@@ -299,16 +348,29 @@
             padding: 15px;
             border-radius: 8px;
         }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .admin-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="loginSection" class="login-container">
         <div class="login-box">
-            <div class="login-logo"></div>
+            <img class="login-logo" src="img/logo/logo-kpu.png" alt="Logo KPU">
             <h2 class="login-title">Admin Login</h2>
             <p style="color: #666; margin-bottom: 20px;">Masuk ke Panel Admin Buku Tamu KPU</p>
             
-            <form class="login-form" id="loginForm">
+            <form class="login-form" onsubmit="handleLogin(event)">
                 <div class="login-group">
                     <label for="username">👤 Username:</label>
                     <input type="text" id="username" required placeholder="Masukkan username">
@@ -317,234 +379,181 @@
                     <label for="password">🔒 Password:</label>
                     <input type="password" id="password" required placeholder="Masukkan password">
                 </div>
-                
-                <div class="captcha-container">
-                    <div class="captcha-display">
-                        <div class="captcha-code" id="captchaDisplay">LOADING</div>
-                        <button type="button" class="captcha-refresh" id="refreshCaptcha">🔄 Refresh</button>
-                    </div>
-                    <label class="captcha-label" for="captchaInput">🔐 Masukkan kode CAPTCHA di atas:</label>
-                    <input type="text" class="captcha-input" id="captchaInput" required placeholder="Masukkan kode CAPTCHA" maxlength="5">
-                </div>
-                
                 <button type="submit" class="login-btn">Masuk Admin</button>
             </form>
             
             <div class="login-error" id="loginError"></div>
-            
-            <!-- Debug Info -->
-            <div class="debug-info">
-                <strong>DEBUG INFO:</strong><br>
-                Username yang benar: <strong>admin_kpu</strong><br>
-                Password yang benar: <strong>kpu2025</strong><br>
-                Status: <span id="debugStatus">Memuat...</span><br>
-                CAPTCHA: <span id="debugCaptcha">-</span>
-            </div>
         </div>
     </div>
 
     <div id="adminSection" class="admin-container">
         <header>
             <div class="header-content">
-                <div class="logo-kpu"></div>
+                <img class="logo-kpu" src="img/logo/logo-kpu.png" alt="Logo KPU">
                 <div>
-                    <h2>Admin Buku Tamu KPU</h2>
+                    <h2> Admin Buku Tamu KPU</h2>
                     <p style="margin: 0; color: #666;">Panel Administrasi Data Tamu</p>
                 </div>
             </div>
             <div class="admin-info">
                 <div class="admin-user">
-                    👤 <strong>Administrator</strong> | 🕒 <span id="currentTime">Loading...</span>
+                    👤 <strong>Administrator</strong> | 🕒 <span id="currentTime"></span>
                 </div>
-                <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+                <button class="logout-btn" onclick="handleLogout()">🚪 Logout</button>
             </div>
         </header>
 
         <div class="status" id="statusDiv"></div>
-        <button class="refresh" id="refreshBtn">🔄 Refresh Data</button>
+        <button class="refresh" onclick="loadData()">🔄 Refresh Data</button>
 
         <div class="table-container">
             <h3>📋 Data Tamu</h3>
-            <table id="dataTable">
-                <tr><td style='text-align: center; padding: 20px;'>Loading...</td></tr>
-            </table>
+            <table id="dataTable"></table>
         </div>
 
         <div class="table-container">
             <h3>📈 Rekap Harian</h3>
-            <table id="rekapTable">
-                <tr><td style='text-align: center; padding: 20px;'>Loading...</td></tr>
-            </table>
+            <table id="rekapTable"></table>
+        </div>
+
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>✏️ Edit Data Tamu</h3>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <form id="editForm">
+                    <div class="form-group">
+                        <label for="editNama">Nama Lengkap:</label>
+                        <input type="text" id="editNama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAlamat">Alamat:</label>
+                        <textarea id="editAlamat" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editInstansi">Instansi/Organisasi:</label>
+                        <input type="text" id="editInstansi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTelepon">No. Telepon:</label>
+                        <input type="tel" id="editTelepon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editKeperluan">Keperluan:</label>
+                        <textarea id="editKeperluan" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editBidang">Bidang yang Dituju:</label>
+                        <select id="editBidang" required>
+                            <option value="">Pilih Bidang</option>
+                            <option value="Sekretariat">Sekretariat</option>
+                            <option value="Teknis Penyelenggaraan Pemilu">Teknis Penyelenggaraan Pemilu</option>
+                            <option value="Sosialisasi dan SDM">Sosialisasi dan SDM</option>
+                            <option value="Hukum dan Pengawasan">Hukum dan Pengawasan</option>
+                            <option value="Data dan Informasi">Data dan Informasi</option>
+                            <option value="Keuangan">Keuangan</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" class="btn-cancel" onclick="closeModal()">❌ Batal</button>
+                        <button type="submit" class="btn-save">💾 Simpan</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         <footer>🏛️ Komisi Pemilihan Umum Grobogan</footer>
     </div>
 
     <script>
-        // Global variables
-        let captchaCode = "";
+        // GANTI URL INI DENGAN URL GOOGLE APPS SCRIPT ANDA YANG BARU
         const scriptURL = "https://script.google.com/macros/s/AKfycbxxzB7CdHkrP8swb7WYN0xt3gYp9DG7efiRmNAv-YZXmlivk5jpzYWHl5NvI4HfCjs6/exec";
-        
-        // Admin credentials
-        const ADMIN_USERNAME = "admin_kpu";
-        const ADMIN_PASSWORD = "kpu2025";
+        let currentEditRow = null;
 
-        // Debug function
-        function debugLog(message) {
-            console.log("[DEBUG] " + message);
-            document.getElementById('debugStatus').textContent = message;
-        }
+        // Kredensial login (dalam aplikasi nyata, ini harus di server)
+        const adminCredentials = {
+            username: "admin_kpu",
+            password: "kpu2025"
+        };
 
-        // Generate CAPTCHA
-        function generateCaptcha() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            captchaCode = '';
-            for (let i = 0; i < 5; i++) {
-                captchaCode += characters.charAt(Math.floor(Math.random() * characters.length));
+        // Cek status login saat halaman dimuat
+        window.onload = function() {
+            checkLoginStatus();
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000); // Update waktu setiap detik
+        };
+
+        function checkLoginStatus() {
+            // Cek apakah sudah login (dalam aplikasi nyata, gunakan session/token)
+            const isLoggedIn = sessionStorage.getItem('kpu_admin_logged_in') === 'true';
+            
+            if (isLoggedIn) {
+                showAdminPanel();
+            } else {
+                showLoginPanel();
             }
-            document.getElementById('captchaDisplay').textContent = captchaCode;
-            document.getElementById('debugCaptcha').textContent = captchaCode;
-            debugLog("CAPTCHA generated: " + captchaCode);
         }
 
-        // Validate CAPTCHA
-        function validateCaptcha() {
-            const userInput = document.getElementById('captchaInput').value.toUpperCase().trim();
-            const isValid = userInput === captchaCode;
-            debugLog(`CAPTCHA validation: ${userInput} vs ${captchaCode} = ${isValid}`);
-            return isValid;
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorDiv = document.getElementById('loginError');
+            
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                // Login berhasil
+                sessionStorage.setItem('kpu_admin_logged_in', 'true');
+                sessionStorage.setItem('kpu_admin_user', username);
+                showAdminPanel();
+                loadData(); // Load data setelah login
+            } else {
+                // Login gagal
+                errorDiv.textContent = '❌ Username atau password salah!';
+                errorDiv.style.display = 'block';
+                
+                // Hapus pesan error setelah 3 detik
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 3000);
+            }
         }
 
-        // Show/Hide panels
+        function handleLogout() {
+            if (confirm('🚪 Yakin ingin logout?')) {
+                sessionStorage.removeItem('kpu_admin_logged_in');
+                sessionStorage.removeItem('kpu_admin_user');
+                showLoginPanel();
+            }
+        }
+
         function showLoginPanel() {
-            debugLog("Showing login panel");
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('adminSection').style.display = 'none';
             
             // Reset form
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
-            document.getElementById('captchaInput').value = '';
             document.getElementById('loginError').style.display = 'none';
-            generateCaptcha();
         }
 
         function showAdminPanel() {
-            debugLog("Showing admin panel");
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'block';
-            updateCurrentTime();
         }
 
-        // Handle login
-        function handleLogin(event) {
-            event.preventDefault();
-            debugLog("Login form submitted");
-            
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const errorDiv = document.getElementById('loginError');
-            
-            debugLog(`Attempting login with: ${username} / ${password.length} chars`);
-            
-            // Reset error
-            errorDiv.style.display = 'none';
-            
-            // Validate CAPTCHA first
-            if (!validateCaptcha()) {
-                showError('❌ Kode CAPTCHA salah!');
-                generateCaptcha();
-                document.getElementById('captchaInput').value = '';
-                return false;
-            }
-            
-            // Validate credentials
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-                debugLog("Login successful!");
-                
-                // Save login status
-                try {
-                    sessionStorage.setItem('kpu_admin_logged_in', 'true');
-                    sessionStorage.setItem('kpu_admin_user', username);
-                    debugLog("Session data saved");
-                } catch (e) {
-                    debugLog("Error saving session: " + e.message);
-                }
-                
-                // Show admin panel
-                showAdminPanel();
-                loadData();
-                
-            } else {
-                debugLog("Login failed - wrong credentials");
-                showError('❌ Username atau password salah!');
-                generateCaptcha();
-                document.getElementById('captchaInput').value = '';
-            }
-            
-            return false;
-        }
-
-        // Show error message
-        function showError(message) {
-            const errorDiv = document.getElementById('loginError');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-            
-            setTimeout(() => {
-                errorDiv.style.display = 'none';
-            }, 3000);
-        }
-
-        // Check login status
-        function checkLoginStatus() {
-            try {
-                const isLoggedIn = sessionStorage.getItem('kpu_admin_logged_in') === 'true';
-                debugLog("Checking login status: " + isLoggedIn);
-                
-                if (isLoggedIn) {
-                    showAdminPanel();
-                    loadData();
-                } else {
-                    showLoginPanel();
-                }
-            } catch (e) {
-                debugLog("Error checking login status: " + e.message);
-                showLoginPanel();
-            }
-        }
-
-        // Handle logout
-        function handleLogout() {
-            if (confirm('🚪 Yakin ingin logout?')) {
-                try {
-                    sessionStorage.removeItem('kpu_admin_logged_in');
-                    sessionStorage.removeItem('kpu_admin_user');
-                    debugLog("Logged out successfully");
-                } catch (e) {
-                    debugLog("Error during logout: " + e.message);
-                }
-                showLoginPanel();
-            }
-        }
-
-        // Update current time
         function updateCurrentTime() {
             const now = new Date();
-            
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
-                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-            
-            const dayName = days[now.getDay()];
-            const day = now.getDate().toString().padStart(2, '0');
-            const month = months[now.getMonth()];
-            const year = now.getFullYear();
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            
-            const timeString = `${dayName}, ${day} ${month} ${year} - ${hours}:${minutes}:${seconds} WIB`;
+            const timeString = now.toLocaleString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
             
             const timeElement = document.getElementById('currentTime');
             if (timeElement) {
@@ -552,160 +561,280 @@
             }
         }
 
-        // Show status message
         function showStatus(message, isError = false) {
             const statusDiv = document.getElementById("statusDiv");
-            if (statusDiv) {
-                statusDiv.textContent = message;
-                statusDiv.className = `status ${isError ? 'error' : 'success'}`;
-                statusDiv.style.display = "block";
-                
-                setTimeout(() => {
-                    statusDiv.style.display = "none";
-                }, 3000);
-            }
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${isError ? 'error' : 'success'}`;
+            statusDiv.style.display = "block";
+            
+            setTimeout(() => {
+                statusDiv.style.display = "none";
+            }, 3000);
         }
 
-        // Load data
         async function loadData() {
-            debugLog("Loading data...");
-            
             try {
+                console.log("🔄 Memuat data dari:", scriptURL);
+                
                 const timestamp = new Date().getTime();
                 const url = scriptURL + "?action=read&t=" + timestamp;
                 
-                debugLog("Fetching from: " + url);
-                
-                const res = await fetch(url);
+                let res = await fetch(url);
+                console.log("📡 Response status:", res.status);
                 
                 if (!res.ok) {
                     throw new Error(`HTTP ${res.status}: ${res.statusText}`);
                 }
                 
                 const responseText = await res.text();
-                debugLog("Response received: " + responseText.substring(0, 100) + "...");
+                console.log("📄 Raw response:", responseText);
                 
                 let json;
                 try {
                     json = JSON.parse(responseText);
                 } catch (parseErr) {
-                    throw new Error("Invalid JSON response");
+                    console.error("❌ JSON Parse Error:", parseErr);
+                    console.log("📄 Response yang tidak bisa di-parse:", responseText);
+                    throw new Error("Format response tidak valid");
+                }
+                
+                console.log("✅ Data berhasil di-parse:", json);
+
+                let data = json.data || [];
+                let rekap = json.rekap || [];
+
+                console.log("📊 Data rows:", data.length);
+                console.log("📈 Rekap rows:", rekap.length);
+
+                // ===== Tabel Data Tamu =====
+                let dataTable = document.getElementById("dataTable");
+                dataTable.innerHTML = "";
+
+                if (data.length === 0) {
+                    dataTable.innerHTML = "<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #666;'>📭 Belum ada data tamu</td></tr>";
+                } else {
+                    data.forEach((row, i) => {
+                        let tr = document.createElement("tr");
+
+                        row.forEach(cell => {
+                            let td = document.createElement(i === 0 ? "th" : "td");
+                            td.innerText = cell || "";
+                            tr.appendChild(td);
+                        });
+
+                        if (i === 0) {
+                            let th = document.createElement("th");
+                            th.innerText = "Aksi";
+                            th.style.width = "120px";
+                            tr.appendChild(th);
+                        } else {
+                            let td = document.createElement("td");
+                            const rowIndex = i - 1; // Index untuk data (tanpa header)
+                            const actualRowNumber = i + 1; // Nomor row di spreadsheet (header = row 1, data mulai row 2)
+                            
+                            const editBtn = document.createElement("button");
+                            editBtn.className = "btn btn-edit";
+                            editBtn.innerHTML = "✏️ Edit";
+                            editBtn.onclick = () => openEditModal(rowIndex, row);
+                            
+                            const deleteBtn = document.createElement("button");
+                            deleteBtn.className = "btn btn-delete";
+                            deleteBtn.innerHTML = "🗑 Hapus";
+                            deleteBtn.id = `deleteBtn${rowIndex}`;
+                            deleteBtn.onclick = () => confirmDelete(actualRowNumber, row[0] || "Unknown", rowIndex);
+                            
+                            td.appendChild(editBtn);
+                            td.appendChild(deleteBtn);
+                            tr.appendChild(td);
+                        }
+
+                        dataTable.appendChild(tr);
+                    });
                 }
 
-                const data = json.data || [];
-                const rekap = json.rekap || [];
-
-                debugLog(`Data loaded: ${data.length} rows, ${rekap.length} rekap`);
-
-                // Update data table
-                updateDataTable(data);
-                updateRekapTable(rekap);
+                // ===== Tabel Rekap =====
+                let rekapTable = document.getElementById("rekapTable");
+                rekapTable.innerHTML = "";
+                
+                if (rekap.length === 0) {
+                    rekapTable.innerHTML = "<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #666;'>📊 Belum ada data rekap</td></tr>";
+                } else {
+                    rekap.forEach((row, i) => {
+                        let tr = document.createElement("tr");
+                        row.forEach(cell => {
+                            let td = document.createElement(i === 0 ? "th" : "td");
+                            td.innerText = cell || "";
+                            tr.appendChild(td);
+                        });
+                        rekapTable.appendChild(tr);
+                    });
+                }
 
                 showStatus("✅ Data berhasil dimuat! (" + Math.max(0, data.length - 1) + " tamu)");
 
             } catch (err) {
-                debugLog("Error loading data: " + err.message);
+                console.error("❌ Error loading data:", err);
                 showStatus("❌ Gagal memuat data! " + err.message, true);
                 
                 const dataTable = document.getElementById("dataTable");
-                if (dataTable) {
-                    dataTable.innerHTML = `<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #d32f2f;'>
-                        ❌ Error: ${err.message}
-                    </td></tr>`;
-                }
+                dataTable.innerHTML = `<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #d32f2f;'>
+                    ❌ Error: ${err.message}<br>
+                    <small>Cek Console (F12) untuk detail error</small>
+                </td></tr>`;
             }
         }
 
-        // Update data table
-        function updateDataTable(data) {
-            const dataTable = document.getElementById("dataTable");
-            if (!dataTable) return;
+        function openEditModal(rowIndex, rowData) {
+            currentEditRow = rowIndex + 2; // +2 karena row 1 adalah header, data mulai dari row 2
             
-            dataTable.innerHTML = "";
-
-            if (data.length === 0) {
-                dataTable.innerHTML = "<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #666;'>📭 Belum ada data tamu</td></tr>";
-                return;
-            }
-
-            data.forEach((row, i) => {
-                const tr = document.createElement("tr");
-
-                row.forEach((cell) => {
-                    const td = document.createElement(i === 0 ? "th" : "td");
-                    td.textContent = cell || "";
-                    tr.appendChild(td);
-                });
-
-                if (i === 0) {
-                    const th = document.createElement("th");
-                    th.textContent = "Aksi";
-                    th.style.width = "120px";
-                    tr.appendChild(th);
-                } else {
-                    const td = document.createElement("td");
-                    
-                    const editBtn = document.createElement("button");
-                    editBtn.className = "btn btn-edit";
-                    editBtn.textContent = "✏️ Edit";
-                    editBtn.onclick = () => alert('Fitur edit dalam pengembangan');
-                    
-                    const deleteBtn = document.createElement("button");
-                    deleteBtn.className = "btn btn-delete";
-                    deleteBtn.textContent = "🗑 Hapus";
-                    deleteBtn.onclick = () => alert('Fitur delete dalam pengembangan');
-                    
-                    td.appendChild(editBtn);
-                    td.appendChild(deleteBtn);
-                    tr.appendChild(td);
-                }
-
-                dataTable.appendChild(tr);
-            });
+            // Isi form dengan data saat ini
+            document.getElementById("editNama").value = rowData[0] || "";
+            document.getElementById("editAlamat").value = rowData[1] || "";
+            document.getElementById("editInstansi").value = rowData[2] || "";
+            document.getElementById("editTelepon").value = rowData[3] || "";
+            document.getElementById("editKeperluan").value = rowData[4] || "";
+            document.getElementById("editBidang").value = rowData[5] || "";
+            
+            document.getElementById("editModal").style.display = "block";
         }
 
-        // Update rekap table
-        function updateRekapTable(rekap) {
-            const rekapTable = document.getElementById("rekapTable");
-            if (!rekapTable) return;
-            
-            rekapTable.innerHTML = "";
-            
-            if (rekap.length === 0) {
-                rekapTable.innerHTML = "<tr><td colspan='100%' style='text-align: center; padding: 20px; color: #666;'>📊 Belum ada data rekap</td></tr>";
-                return;
-            }
-
-            rekap.forEach((row, i) => {
-                const tr = document.createElement("tr");
-                row.forEach((cell) => {
-                    const td = document.createElement(i === 0 ? "th" : "td");
-                    td.textContent = cell || "";
-                    tr.appendChild(td);
-                });
-                rekapTable.appendChild(tr);
-            });
+        function closeModal() {
+            document.getElementById("editModal").style.display = "none";
+            currentEditRow = null;
         }
 
-        // Initialize when page loads
-        window.addEventListener('load', function() {
-            debugLog("Page loaded, initializing...");
-            
-            // Add event listeners
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
-            document.getElementById('refreshCaptcha').addEventListener('click', generateCaptcha);
-            document.getElementById('logoutBtn').addEventListener('click', handleLogout);
-            document.getElementById('refreshBtn').addEventListener('click', loadData);
-            
-            // Initialize
-            generateCaptcha();
-            checkLoginStatus();
-            
-            // Update time every second
-            setInterval(updateCurrentTime, 1000);
-            
-            debugLog("Initialization complete");
+        // Tutup modal jika klik di luar
+        window.onclick = function(event) {
+            const modal = document.getElementById("editModal");
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Handle form submit
+        document.getElementById("editForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+            await updateData();
         });
+
+        async function updateData() {
+            if (!currentEditRow) return;
+            
+            try {
+                const formData = {
+                    nama: document.getElementById("editNama").value.trim(),
+                    alamat: document.getElementById("editAlamat").value.trim(),
+                    instansi: document.getElementById("editInstansi").value.trim(),
+                    telepon: document.getElementById("editTelepon").value.trim(),
+                    keperluan: document.getElementById("editKeperluan").value.trim(),
+                    bidang: document.getElementById("editBidang").value
+                };
+                
+                // Validasi form
+                if (!formData.nama || !formData.alamat || !formData.instansi || 
+                    !formData.telepon || !formData.keperluan || !formData.bidang) {
+                    alert("❌ Semua field harus diisi!");
+                    return;
+                }
+                
+                console.log("✏️ Mengupdate row:", currentEditRow);
+                console.log("📝 Data yang akan diupdate:", formData);
+                
+                const timestamp = new Date().getTime();
+                const url = `${scriptURL}?action=edit&row=${currentEditRow}&t=${timestamp}` +
+                    `&nama=${encodeURIComponent(formData.nama)}` +
+                    `&alamat=${encodeURIComponent(formData.alamat)}` +
+                    `&instansi=${encodeURIComponent(formData.instansi)}` +
+                    `&telepon=${encodeURIComponent(formData.telepon)}` +
+                    `&keperluan=${encodeURIComponent(formData.keperluan)}` +
+                    `&bidang=${encodeURIComponent(formData.bidang)}`;
+                
+                console.log("🌐 URL request:", url);
+                
+                let res = await fetch(url);
+                console.log("📡 Update response status:", res.status);
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+                
+                let text = await res.text();
+                console.log("✅ Update response:", text);
+                
+                closeModal();
+                showStatus("✅ Data berhasil diperbarui!");
+                
+                // Refresh data setelah update
+                setTimeout(() => loadData(), 500);
+                
+            } catch (err) {
+                console.error("❌ Error updating data:", err);
+                showStatus("❌ Gagal memperbarui data! " + err.message, true);
+            }
+        }
+
+        function confirmDelete(rowNumber, namaTamu, displayIndex) {
+            const confirmMsg = `🗑️ Yakin ingin menghapus data tamu "${namaTamu}"?\n\n⚠️ Tindakan ini tidak dapat dibatalkan!`;
+            
+            console.log("🗑 Confirm delete - Row Number:", rowNumber, "Nama:", namaTamu, "Display Index:", displayIndex);
+            
+            if (confirm(confirmMsg)) {
+                deleteData(rowNumber, displayIndex);
+            }
+        }
+
+        async function deleteData(rowNumber, displayIndex) {
+            try {
+                console.log("🗑 Menghapus row number:", rowNumber, "Display index:", displayIndex);
+                
+                // Disable tombol hapus yang diklik
+                const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
+                if (deleteBtn) {
+                    deleteBtn.disabled = true;
+                    deleteBtn.innerHTML = "⏳ Menghapus...";
+                }
+                
+                const timestamp = new Date().getTime();
+                const url = `${scriptURL}?action=delete&row=${rowNumber}&t=${timestamp}`;
+                
+                console.log("🌐 Delete URL:", url);
+                
+                const res = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                console.log("📡 Delete response status:", res.status);
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                }
+                
+                const responseText = await res.text();
+                console.log("✅ Delete response:", responseText);
+                
+                // Cek apakah response mengandung error
+                if (responseText.includes('error') || responseText.includes('Error')) {
+                    throw new Error("Server mengembalikan error: " + responseText);
+                }
+                
+                showStatus("✅ Data berhasil dihapus!");
+                
+                // Refresh data setelah delete
+                setTimeout(() => loadData(), 800);
+                
+            } catch (err) {
+                console.error("❌ Error deleting data:", err);
+                showStatus("❌ Gagal menghapus data! " + err.message, true);
+                
+                // Re-enable tombol jika error
+                const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
+                if (deleteBtn) {
+                    deleteBtn.disabled = false;
+                    deleteBtn.innerHTML = "🗑 Hapus";
+                }
+            }
+        }
     </script>
 </body>
 </html>
