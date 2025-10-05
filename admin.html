@@ -35,6 +35,7 @@
         .login-logo {
             width: 100px;
             height: 100px;
+            /* Menggunakan img tag untuk kemudahan */
             margin: 0 auto 20px;
             display: block;
         }
@@ -126,6 +127,7 @@
         .logo-kpu {
             width: 80px;
             height: 80px;
+            /* Menggunakan img tag untuk kemudahan */
         }
 
         header h2 { 
@@ -480,10 +482,11 @@
         window.onload = function() {
             checkLoginStatus();
             updateCurrentTime();
-            setInterval(updateCurrentTime, 1000);
+            setInterval(updateCurrentTime, 1000); // Update waktu setiap detik
         };
 
         function checkLoginStatus() {
+            // Cek apakah sudah login (dalam aplikasi nyata, gunakan session/token)
             const isLoggedIn = sessionStorage.getItem('kpu_admin_logged_in') === 'true';
             
             if (isLoggedIn) {
@@ -501,14 +504,17 @@
             const errorDiv = document.getElementById('loginError');
             
             if (username === adminCredentials.username && password === adminCredentials.password) {
+                // Login berhasil
                 sessionStorage.setItem('kpu_admin_logged_in', 'true');
                 sessionStorage.setItem('kpu_admin_user', username);
                 showAdminPanel();
-                loadData();
+                loadData(); // Load data setelah login
             } else {
+                // Login gagal
                 errorDiv.textContent = '❌ Username atau password salah!';
                 errorDiv.style.display = 'block';
                 
+                // Hapus pesan error setelah 3 detik
                 setTimeout(() => {
                     errorDiv.style.display = 'none';
                 }, 3000);
@@ -527,6 +533,7 @@
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('adminSection').style.display = 'none';
             
+            // Reset form
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
@@ -540,9 +547,12 @@
         function updateCurrentTime() {
             const now = new Date();
             const timeString = now.toLocaleString('id-ID', {
+                weekday: 'long',
                 year: 'numeric',
                 month: 'long',
-                day: 'numeric'
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
             });
             
             const timeElement = document.getElementById('currentTime');
@@ -596,6 +606,7 @@
                 console.log("📊 Data rows:", data.length);
                 console.log("📈 Rekap rows:", rekap.length);
 
+                // ===== Tabel Data Tamu =====
                 let dataTable = document.getElementById("dataTable");
                 dataTable.innerHTML = "";
 
@@ -618,8 +629,8 @@
                             tr.appendChild(th);
                         } else {
                             let td = document.createElement("td");
-                            const rowIndex = i - 1;
-                            const actualRowNumber = i + 1;
+                            const rowIndex = i - 1; // Index untuk data (tanpa header)
+                            const actualRowNumber = i + 1; // Nomor row di spreadsheet (header = row 1, data mulai row 2)
                             
                             const editBtn = document.createElement("button");
                             editBtn.className = "btn btn-edit";
@@ -641,6 +652,7 @@
                     });
                 }
 
+                // ===== Tabel Rekap =====
                 let rekapTable = document.getElementById("rekapTable");
                 rekapTable.innerHTML = "";
                 
@@ -673,8 +685,9 @@
         }
 
         function openEditModal(rowIndex, rowData) {
-            currentEditRow = rowIndex + 2;
+            currentEditRow = rowIndex + 2; // +2 karena row 1 adalah header, data mulai dari row 2
             
+            // Isi form dengan data saat ini
             document.getElementById("editNama").value = rowData[0] || "";
             document.getElementById("editAlamat").value = rowData[1] || "";
             document.getElementById("editInstansi").value = rowData[2] || "";
@@ -690,6 +703,7 @@
             currentEditRow = null;
         }
 
+        // Tutup modal jika klik di luar
         window.onclick = function(event) {
             const modal = document.getElementById("editModal");
             if (event.target == modal) {
@@ -697,6 +711,7 @@
             }
         }
 
+        // Handle form submit
         document.getElementById("editForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             await updateData();
@@ -715,6 +730,7 @@
                     bidang: document.getElementById("editBidang").value
                 };
                 
+                // Validasi form
                 if (!formData.nama || !formData.alamat || !formData.instansi || 
                     !formData.telepon || !formData.keperluan || !formData.bidang) {
                     alert("❌ Semua field harus diisi!");
@@ -748,6 +764,7 @@
                 closeModal();
                 showStatus("✅ Data berhasil diperbarui!");
                 
+                // Refresh data setelah update
                 setTimeout(() => loadData(), 500);
                 
             } catch (err) {
@@ -770,6 +787,7 @@
             try {
                 console.log("🗑 Menghapus row number:", rowNumber, "Display index:", displayIndex);
                 
+                // Disable tombol hapus yang diklik
                 const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
                 if (deleteBtn) {
                     deleteBtn.disabled = true;
@@ -795,18 +813,21 @@
                 const responseText = await res.text();
                 console.log("✅ Delete response:", responseText);
                 
+                // Cek apakah response mengandung error
                 if (responseText.includes('error') || responseText.includes('Error')) {
                     throw new Error("Server mengembalikan error: " + responseText);
                 }
                 
                 showStatus("✅ Data berhasil dihapus!");
                 
+                // Refresh data setelah delete
                 setTimeout(() => loadData(), 800);
                 
             } catch (err) {
                 console.error("❌ Error deleting data:", err);
                 showStatus("❌ Gagal menghapus data! " + err.message, true);
                 
+                // Re-enable tombol jika error
                 const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
                 if (deleteBtn) {
                     deleteBtn.disabled = false;
