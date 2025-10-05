@@ -26,7 +26,7 @@
             background: white;
             padding: 40px;
             border-radius: 15px;
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0px 10px/30px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 400px;
             text-align: center;
@@ -561,6 +561,23 @@
             }
         }
 
+        // Fungsi untuk memformat timestamp menjadi tanggal saja
+        function formatTanggal(timestamp) {
+            if (!timestamp) return '';
+            
+            try {
+                const date = new Date(timestamp);
+                // Format: DD/MM/YYYY
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            } catch (e) {
+                // Jika parsing gagal, kembalikan string asli
+                return timestamp;
+            }
+        }
+
         function showStatus(message, isError = false) {
             const statusDiv = document.getElementById("statusDiv");
             statusDiv.textContent = message;
@@ -616,9 +633,26 @@
                     data.forEach((row, i) => {
                         let tr = document.createElement("tr");
 
-                        row.forEach(cell => {
+                        // Proses setiap cell dalam row
+                        row.forEach((cell, cellIndex) => {
                             let td = document.createElement(i === 0 ? "th" : "td");
-                            td.innerText = cell || "";
+                            
+                            // Jika ini adalah header (baris pertama), tampilkan teks biasa
+                            if (i === 0) {
+                                td.innerText = cell || "";
+                            } else {
+                                // Jika ini adalah data (bukan header) dan cell mengandung timestamp
+                                // Asumsikan timestamp berada di kolom tertentu (misalnya kolom terakhir atau kolom tanggal)
+                                // Anda bisa menyesuaikan logika ini berdasarkan struktur data Anda
+                                
+                                // Contoh: jika cell mengandung format timestamp ISO (seperti "2025-08-22T02:19:19.000Z")
+                                if (typeof cell === 'string' && cell.includes('T') && cell.includes('Z')) {
+                                    td.innerText = formatTanggal(cell);
+                                } else {
+                                    td.innerText = cell || "";
+                                }
+                            }
+                            
                             tr.appendChild(td);
                         });
 
