@@ -35,7 +35,6 @@
         .login-logo {
             width: 100px;
             height: 100px;
-            /* Menggunakan img tag untuk kemudahan */
             margin: 0 auto 20px;
             display: block;
         }
@@ -127,7 +126,6 @@
         .logo-kpu {
             width: 80px;
             height: 80px;
-            /* Menggunakan img tag untuk kemudahan */
         }
 
         header h2 { 
@@ -482,11 +480,10 @@
         window.onload = function() {
             checkLoginStatus();
             updateCurrentTime();
-            setInterval(updateCurrentTime, 1000); // Update waktu setiap detik
+            setInterval(updateCurrentTime, 1000);
         };
 
         function checkLoginStatus() {
-            // Cek apakah sudah login (dalam aplikasi nyata, gunakan session/token)
             const isLoggedIn = sessionStorage.getItem('kpu_admin_logged_in') === 'true';
             
             if (isLoggedIn) {
@@ -504,17 +501,14 @@
             const errorDiv = document.getElementById('loginError');
             
             if (username === adminCredentials.username && password === adminCredentials.password) {
-                // Login berhasil
                 sessionStorage.setItem('kpu_admin_logged_in', 'true');
                 sessionStorage.setItem('kpu_admin_user', username);
                 showAdminPanel();
-                loadData(); // Load data setelah login
+                loadData();
             } else {
-                // Login gagal
                 errorDiv.textContent = '❌ Username atau password salah!';
                 errorDiv.style.display = 'block';
                 
-                // Hapus pesan error setelah 3 detik
                 setTimeout(() => {
                     errorDiv.style.display = 'none';
                 }, 3000);
@@ -533,7 +527,6 @@
             document.getElementById('loginSection').style.display = 'flex';
             document.getElementById('adminSection').style.display = 'none';
             
-            // Reset form
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('loginError').style.display = 'none';
@@ -558,6 +551,52 @@
             const timeElement = document.getElementById('currentTime');
             if (timeElement) {
                 timeElement.textContent = timeString;
+            }
+        }
+
+        // Fungsi untuk mendeteksi apakah string adalah timestamp
+        function isTimestamp(str) {
+            if (!str || typeof str !== 'string') return false;
+            
+            // Deteksi berbagai format timestamp
+            return (
+                // Format ISO: 2025-08-22T02:19:19.000Z
+                /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/.test(str) ||
+                // Format date only: 2025-08-22
+                /^\d{4}-\d{2}-\d{2}$/.test(str) ||
+                // Format dengan waktu lengkap
+                /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(str)
+            );
+        }
+
+        // Fungsi untuk memformat tanggal dari timestamp
+        function formatTanggal(timestamp) {
+            if (!timestamp) return '';
+            
+            try {
+                // Coba parsing sebagai Date
+                const date = new Date(timestamp);
+                
+                // Jika parsing berhasil dan valid
+                if (!isNaN(date.getTime())) {
+                    // Format: DD/MM/YYYY
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                } else {
+                    // Jika parsing gagal, coba format manual untuk string
+                    if (typeof timestamp === 'string') {
+                        // Cari pattern tanggal YYYY-MM-DD
+                        const dateMatch = timestamp.match(/(\d{4})-(\d{2})-(\d{2})/);
+                        if (dateMatch) {
+                            return `${dateMatch[3]}/${dateMatch[2]}/${dateMatch[1]}`;
+                        }
+                    }
+                    return timestamp; // Kembalikan aslinya jika tidak bisa diformat
+                }
+            } catch (e) {
+                return timestamp; // Kembalikan aslinya jika error
             }
         }
 
@@ -616,9 +655,22 @@
                     data.forEach((row, i) => {
                         let tr = document.createElement("tr");
 
-                        row.forEach(cell => {
+                        // Proses setiap cell dalam row
+                        row.forEach((cell, cellIndex) => {
                             let td = document.createElement(i === 0 ? "th" : "td");
-                            td.innerText = cell || "";
+                            
+                            if (i === 0) {
+                                // Header - tampilkan biasa
+                                td.innerText = cell || "";
+                            } else {
+                                // Data rows - format SEMUA timestamp yang terdeteksi
+                                if (cell && isTimestamp(cell)) {
+                                    td.innerText = formatTanggal(cell);
+                                } else {
+                                    td.innerText = cell || "";
+                                }
+                            }
+                            
                             tr.appendChild(td);
                         });
 
@@ -629,8 +681,8 @@
                             tr.appendChild(th);
                         } else {
                             let td = document.createElement("td");
-                            const rowIndex = i - 1; // Index untuk data (tanpa header)
-                            const actualRowNumber = i + 1; // Nomor row di spreadsheet (header = row 1, data mulai row 2)
+                            const rowIndex = i - 1;
+                            const actualRowNumber = i + 1;
                             
                             const editBtn = document.createElement("button");
                             editBtn.className = "btn btn-edit";
@@ -685,9 +737,8 @@
         }
 
         function openEditModal(rowIndex, rowData) {
-            currentEditRow = rowIndex + 2; // +2 karena row 1 adalah header, data mulai dari row 2
+            currentEditRow = rowIndex + 2;
             
-            // Isi form dengan data saat ini
             document.getElementById("editNama").value = rowData[0] || "";
             document.getElementById("editAlamat").value = rowData[1] || "";
             document.getElementById("editInstansi").value = rowData[2] || "";
@@ -703,7 +754,6 @@
             currentEditRow = null;
         }
 
-        // Tutup modal jika klik di luar
         window.onclick = function(event) {
             const modal = document.getElementById("editModal");
             if (event.target == modal) {
@@ -711,7 +761,6 @@
             }
         }
 
-        // Handle form submit
         document.getElementById("editForm").addEventListener("submit", async function(e) {
             e.preventDefault();
             await updateData();
@@ -730,7 +779,6 @@
                     bidang: document.getElementById("editBidang").value
                 };
                 
-                // Validasi form
                 if (!formData.nama || !formData.alamat || !formData.instansi || 
                     !formData.telepon || !formData.keperluan || !formData.bidang) {
                     alert("❌ Semua field harus diisi!");
@@ -764,7 +812,6 @@
                 closeModal();
                 showStatus("✅ Data berhasil diperbarui!");
                 
-                // Refresh data setelah update
                 setTimeout(() => loadData(), 500);
                 
             } catch (err) {
@@ -787,7 +834,6 @@
             try {
                 console.log("🗑 Menghapus row number:", rowNumber, "Display index:", displayIndex);
                 
-                // Disable tombol hapus yang diklik
                 const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
                 if (deleteBtn) {
                     deleteBtn.disabled = true;
@@ -813,21 +859,18 @@
                 const responseText = await res.text();
                 console.log("✅ Delete response:", responseText);
                 
-                // Cek apakah response mengandung error
                 if (responseText.includes('error') || responseText.includes('Error')) {
                     throw new Error("Server mengembalikan error: " + responseText);
                 }
                 
                 showStatus("✅ Data berhasil dihapus!");
                 
-                // Refresh data setelah delete
                 setTimeout(() => loadData(), 800);
                 
             } catch (err) {
                 console.error("❌ Error deleting data:", err);
                 showStatus("❌ Gagal menghapus data! " + err.message, true);
                 
-                // Re-enable tombol jika error
                 const deleteBtn = document.getElementById(`deleteBtn${displayIndex}`);
                 if (deleteBtn) {
                     deleteBtn.disabled = false;
